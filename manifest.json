@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "Gripp - One-Click Copy for X",
+  "version": "1.0",
+  "description": "Copy entire X (Twitter) posts including quoted tweets in a single click.",
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "scripting",
+    "clipboardWrite"
+  ],
+  "host_permissions": [
+    "https://twitter.com/*",
+    "https://x.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://twitter.com/*",
+        "https://x.com/*"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  }
+}
