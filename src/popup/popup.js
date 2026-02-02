@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Expand to full page
     document.getElementById('expand-btn').addEventListener('click', () => {
-        chrome.tabs.create({ url: chrome.runtime.getURL('history.html') });
+        chrome.tabs.create({ url: chrome.runtime.getURL('src/history/history.html') });
     });
 
     // Clear history button

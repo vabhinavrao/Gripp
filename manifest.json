@@ -15,7 +15,7 @@
     "https://x.com/*"
   ],
   "action": {
-    "default_popup": "popup.html",
+    "default_popup": "src/popup/popup.html",
     "default_icon": {
       "16": "assets/logo-16.png",
       "48": "assets/logo-48.png",
@@ -23,7 +23,7 @@
     }
   },
   "background": {
-    "service_worker": "background.js",
+    "service_worker": "src/background/background.js",
     "type": "module"
   },
   "content_scripts": [
@@ -33,7 +33,7 @@
         "https://x.com/*"
       ],
       "js": [
-        "content.js"
+        "src/content/content.js"
       ]
     }
   ],
