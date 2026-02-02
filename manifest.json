@@ -1,20 +1,30 @@
 {
   "manifest_version": 3,
-  "name": "Gripp - One-Click Copy for X",
-  "version": "1.0",
-  "description": "Copy entire X (Twitter) posts including quoted tweets in a single click.",
+  "name": "Gripp - X Article Content Copier",
+  "version": "2.0.0",
+  "description": "Copy full X (Twitter) articles with word counts, smart badges, and media detection. Perfect for AI summarization, research, and archival.",
   "permissions": [
     "contextMenus",
     "activeTab",
     "scripting",
-    "clipboardWrite"
+    "clipboardWrite",
+    "storage"
   ],
   "host_permissions": [
     "https://twitter.com/*",
     "https://x.com/*"
   ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "assets/logo-16.png",
+      "48": "assets/logo-48.png",
+      "128": "assets/logo-128.png"
+    }
+  },
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
   },
   "content_scripts": [
     {
@@ -28,8 +38,8 @@
     }
   ],
   "icons": {
-    "16": "icon.png",
-    "48": "icon.png",
-    "128": "icon.png"
+    "16": "assets/logo-16.png",
+    "48": "assets/logo-48.png",
+    "128": "assets/logo-128.png"
   }
 }

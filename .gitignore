@@ -1,0 +1,65 @@
+# Gripp Extension - GitIgnore
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# Node modules (if build system is added later)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build output (future)
+dist/
+build/
+*.zip
+
+# Extension packaging
+*.crx
+*.pem
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Chrome extension development
+.web-extension-id
+
+# Artifacts/Screenshots (optional - uncomment if you don't want these in repo)
+# screenshots/
+# *.png
+# *.jpg
+# *.gif

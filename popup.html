@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gripp</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo-area">
+            <img src="logo.png" alt="Gripp" class="logo">
+            <h1>Gripp</h1>
+        </div>
+        <div class="header-actions">
+            <button id="theme-toggle" title="Toggle Theme" class="icon-btn">
+                <svg id="theme-icon-dark" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor"
+                    stroke-width="2" fill="none">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+                <svg id="theme-icon-light" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor"
+                    stroke-width="2" fill="none" style="display: none;">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+            </button>
+            <button id="expand-btn" title="Open in Full Page" class="icon-btn">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+                    <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path>
+                </svg>
+            </button>
+            <button id="settings-btn" title="Settings" class="icon-btn">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path
+                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                    </path>
+                </svg>
+            </button>
+            <button id="clear-history" title="Clear History" class="icon-btn">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- History View -->
+    <div id="history-view" class="view active">
+        <div id="history-list" class="history-list">
+            <div class="empty-state">No articles copied yet.<br><br>Go to X, right-click an article,<br>and select "Copy
+                full post with Gripp"</div>
+        </div>
+    </div>
+
+    <!-- Settings View -->
+    <div id="settings-view" class="view">
+        <div class="settings-container">
+            <button id="back-btn" class="back-btn">← Back to History</button>
+
+            <h2>Keyboard Shortcut</h2>
+            <p class="hint">Press this shortcut while hovering over an article to copy it.</p>
+
+            <div class="shortcut-editor">
+                <label><input type="checkbox" id="sc-ctrl"> Ctrl/Cmd</label>
+                <label><input type="checkbox" id="sc-shift"> Shift</label>
+                <label><input type="checkbox" id="sc-alt"> Alt</label>
+                <span>+</span>
+                <input type="text" id="sc-key" maxlength="1" placeholder="G">
+            </div>
+
+            <div class="current-shortcut">
+                Current: <span id="current-shortcut-display">Ctrl+Shift+G</span>
+            </div>
+
+            <button id="save-shortcut" class="save-btn">Save Shortcut</button>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>
