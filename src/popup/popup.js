@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadHistory();
     loadShortcutSettings();
     loadTheme();
+    loadDeleteConfirmPreference();
 
     // Theme toggle
     document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
@@ -88,7 +89,7 @@ function loadHistory() {
                             ${wordCountBadge}
                             ${mediaBadge}
                         </div>
-                        <button class="delete-btn" title="Delete this item">⋮</button>
+                        <button class="delete-btn" title="Delete this item">×</button>
                     </div>
                 </div>
                 <div class="preview-text" data-full-content="${escapeHtml(item.fullText || item.preview)}" data-preview="${escapeHtml(displayText)}">${formatTextWithSeparators(displayText)}</div>
@@ -106,9 +107,9 @@ function loadHistory() {
             if (deleteBtn) {
                 deleteBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    if (confirm('Delete this item from history?')) {
+                    showDeleteConfirmation(() => {
                         deleteHistoryItem(item.id || item.timestamp);
-                    }
+                    });
                 });
             }
 
