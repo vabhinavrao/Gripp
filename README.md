@@ -164,11 +164,11 @@ Article content with proper formatting...
 
 ## FAQ
 
-**Q: Does it work on Twitter.com?**  
-A: Yes! Works on both twitter.com and x.com
+**Q: Does it only work on X?**  
+A: Yes! It only works on X.com
 
 **Q: How many items can I save?**  
-A: 50 most recent copies (configurable in code)
+A: 50 most recent copies (configurable in code), to be increded in future updates 
 
 **Q: Can I export my history?**  
 A: Not yet - coming in v2.1 (Markdown export)
@@ -189,12 +189,12 @@ A: Not submitted yet. Install from GitHub for now.
 - Smart color coding
 - Accurate word counting
 
-**v1.0.0** (2026-01-19) - Initial Release
+**v1.0.0** (2026-01-19) - Initial Private Release
 - Core extraction
 - History management
 - Themes
 
-[Full Changelog →](CHANGELOG.md)
+[Full Changelog →](docs/CHANGELOG.md)
 
 ---
 
