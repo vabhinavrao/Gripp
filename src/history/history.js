@@ -65,6 +65,10 @@ function loadHistory() {
                 wordCountBadge = `<span class="word-badge ${badgeClass}">${item.wordCount} words</span>`;
             }
 
+            // Link text based on content type
+            const contentType = item.contentType || 'tweet';
+            const linkText = contentType === 'article' ? 'View Article →' : 'View Tweet →';
+
             div.innerHTML = `
                 <div class="item-header">
                     <div>
@@ -82,7 +86,7 @@ function loadHistory() {
                 <div class="item-text" data-full-content="${escapeHtml(item.fullText || item.preview)}" data-preview="${escapeHtml(displayText)}">${formatTextWithSeparators(displayText)}</div>
                 ${hasMoreContent ? '<div class="expand-btn">▼ Click to expand</div>' : ''}
                 <div class="item-footer">
-                    <a href="${escapeHtml(item.url || '#')}" target="_blank" class="view-link" onclick="event.stopPropagation();">View Tweet →</a>
+                    <a href="${escapeHtml(item.url || '#')}" target="_blank" class="view-link" onclick="event.stopPropagation();">${linkText}</a>
                 </div>
             `;
 
