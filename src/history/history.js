@@ -70,20 +70,34 @@ function loadHistory() {
                         <div class="timestamp">${relativeTime}</div>
                         <div class="full-timestamp">${fullTime}</div>
                     </div>
-                    <div class="badges">
-                        ${wordCountBadge}
-                        ${mediaBadge}
+                    <div class="header-right">
+                        <div class="badges">
+                            ${wordCountBadge}
+                            ${mediaBadge}
+                        </div>
+                        <button class="delete-btn" title="Delete this item">⋮</button>
                     </div>
                 </div>
                 <div class="item-text" data-full-content="${escapeHtml(item.fullText || item.preview)}" data-preview="${escapeHtml(displayText)}">${formatTextWithSeparators(displayText)}</div>
                 ${hasMoreContent ? '<div class="expand-btn">▼ Click to expand</div>' : ''}
                 <div class="item-footer">
-                    <a href="${item.url}" target="_blank" class="view-link" onclick="event.stopPropagation();">View Tweet →</a>
+                    <a href="${escapeHtml(item.url || '#')}" target="_blank" class="view-link" onclick="event.stopPropagation();">View Tweet →</a>
                 </div>
             `;
 
             const expandBtn = div.querySelector('.expand-btn');
             const itemText = div.querySelector('.item-text');
+            const deleteBtn = div.querySelector('.delete-btn');
+
+            // Delete button
+            if (deleteBtn) {
+                deleteBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (confirm('Delete this item from history?')) {
+                        deleteHistoryItem(item.id || item.timestamp);
+                    }
+                });
+            }
 
             if (expandBtn) {
                 expandBtn.addEventListener('click', (e) => {
