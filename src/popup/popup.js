@@ -140,6 +140,70 @@ function loadHistory() {
     });
 }
 
+// Delete confirmation preference
+let skipDeleteConfirm = false;
+
+function loadDeleteConfirmPreference() {
+    chrome.storage.sync.get({ skipDeleteConfirm: false }, (data) => {
+        skipDeleteConfirm = data.skipDeleteConfirm;
+    });
+}
+
+function showDeleteConfirmation(onConfirm) {
+    // If user previously checked "don't ask again", just confirm
+    if (skipDeleteConfirm) {
+        onConfirm();
+        return;
+    }
+
+    // Create custom modal
+    const modal = document.createElement('div');
+    modal.id = 'delete-modal';
+    modal.innerHTML = `
+        <div class="modal-overlay">
+            <div class="modal-content">
+                <h3>Delete this item?</h3>
+                <p>This action cannot be undone.</p>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="dont-ask-checkbox">
+                    <span>Don't ask me again</span>
+                </label>
+                <div class="modal-actions">
+                    <button class="btn-cancel">Cancel</button>
+                    <button class="btn-delete">Delete</button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    const checkbox = modal.querySelector('#dont-ask-checkbox');
+    const cancelBtn = modal.querySelector('.btn-cancel');
+    const deleteBtn = modal.querySelector('.btn-delete');
+
+    cancelBtn.onclick = () => {
+        modal.remove();
+    };
+
+    deleteBtn.onclick = () => {
+        if (checkbox.checked) {
+            skipDeleteConfirm = true;
+            chrome.storage.sync.set({ skipDeleteConfirm: true });
+        }
+        modal.remove();
+        onConfirm();
+    };
+
+    // Close on overlay click
+    modal.querySelector('.modal-overlay').onclick = (e) => {
+        if (e.target.classList.contains('modal-overlay')) {
+            modal.remove();
+        }
+    };
+}
+
+
 function deleteHistoryItem(itemId) {
     chrome.storage.local.get({ history: [] }, (data) => {
         const history = data.history;
