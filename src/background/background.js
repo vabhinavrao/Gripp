@@ -67,7 +67,8 @@ async function writeToClipboard(text, tabId) {
           type: "CLIPBOARD_SUCCESS"
         }).catch(err => console.warn("Could not notify tab:", err));
       } else {
-        console.error(`Gripp: Clipboard write failed for ${result.size} chars:`, result.error);
+        // Use warn instead of error so it doesn't pollute the extension Errors panel
+        console.warn(`Gripp: Clipboard write failed for ${result.size} chars:`, result.error);
 
         // Provide user-friendly error messages
         let errorMsg = "Sorry, please try again";
@@ -90,7 +91,8 @@ async function writeToClipboard(text, tabId) {
       }).catch(err => console.warn("Could not notify tab:", err));
     }
   } catch (err) {
-    console.error("Gripp: Script injection failed:", err);
+    // Use warn instead of error so it doesn't pollute the extension Errors panel
+    console.warn("Gripp: Script injection failed:", err);
 
     chrome.tabs.sendMessage(tabId, {
       type: "CLIPBOARD_FAILED",
