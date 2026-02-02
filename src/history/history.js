@@ -121,7 +121,19 @@ function formatRelativeTime(date) {
 
     if (diffMin < 1) return 'Just now';
     if (diffMin < 60) return `${diffMin}m ago`;
-    if (diffHr < 24) return `${diffHr}h ago`;
+    if (diffHr < 24) return `${diffHr}
+
+function deleteHistoryItem(itemId) {
+    chrome.storage.local.get({ history: [] }, (data) => {
+        const history = data.history;
+        const filteredHistory = history.filter(item => 
+            (item.id || item.timestamp) !== itemId
+        );
+        chrome.storage.local.set({ history: filteredHistory }, () => {
+            loadHistory(); // Reload the list
+        });
+    });
+}h ago`;
     if (diffDay === 1) return '1 day ago';
     if (diffDay < 7) return `${diffDay} days ago`;
 

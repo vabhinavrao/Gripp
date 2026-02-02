@@ -83,20 +83,34 @@ function loadHistory() {
             card.innerHTML = `
                 <div class="card-header">
                     <span class="timestamp">${timeStr}</span>
-                    <div class="badges">
-                        ${wordCountBadge}
-                        ${mediaBadge}
+                    <div class="header-right">
+                        <div class="badges">
+                            ${wordCountBadge}
+                            ${mediaBadge}
+                        </div>
+                        <button class="delete-btn" title="Delete this item">⋮</button>
                     </div>
                 </div>
                 <div class="preview-text" data-full-content="${escapeHtml(item.fullText || item.preview)}" data-preview="${escapeHtml(displayText)}">${formatTextWithSeparators(displayText)}</div>
                 ${hasMoreContent ? '<div class="expand-btn">▼ Click to expand</div>' : ''}
                 <div class="card-footer">
-                    <a href="${item.url}" target="_blank" class="view-link" onclick="event.stopPropagation();">View Tweet</a>
+                    <a href="${escapeHtml(item.url || '#')}" target="_blank" class="view-link" onclick="event.stopPropagation();">View Tweet</a>
                 </div>
             `;
 
             const expandBtn = card.querySelector('.expand-btn');
             const previewText = card.querySelector('.preview-text');
+            const deleteBtn = card.querySelector('.delete-btn');
+
+            // Delete button
+            if (deleteBtn) {
+                deleteBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (confirm('Delete this item from history?')) {
+                        deleteHistoryItem(item.id || item.timestamp);
+                    }
+                });
+            }
 
             if (expandBtn) {
                 expandBtn.addEventListener('click', (e) => {
@@ -121,6 +135,18 @@ function loadHistory() {
             });
 
             list.appendChild(card);
+        });
+    });
+}
+
+function deleteHistoryItem(itemId) {
+    chrome.storage.local.get({ history: [] }, (data) => {
+        const history = data.history;
+        const filteredHistory = history.filter(item =>
+            (item.id || item.timestamp) !== itemId
+        );
+        chrome.storage.local.set({ history: filteredHistory }, () => {
+            loadHistory(); // Reload the list
         });
     });
 }
