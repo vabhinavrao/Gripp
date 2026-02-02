@@ -168,11 +168,15 @@ function saveToHistory(text, url, media) {
     // Calculate word count (excluding separators, metadata, and image placeholders)
     const contentForWordCount = text
         .replace(/^Author:.*$/gm, '')  // Remove author line
-        .replace(/^---$/gm, '')         // Remove separators
+        .replace(/^---$/gm, '')         // Remove separators (standalone)
+        .replace(/--- Quoted Tweet from .* ---/g, '') // Remove quote markers
+        .replace(/\(nested\)/g, '')     // Remove nested labels
+        .replace(/""/g, '')             // Remove quote delimiters
         .replace(/\[Image\d+\]/g, '')   // Remove image placeholders
         .replace(/\[Video\d+\]/g, '')   // Remove video placeholders
         .replace(/heading:|subheading:/g, '') // Remove heading prefixes
-        .replace(/https?:\/\/\S+/gi, ''); // Remove URLs
+        .replace(/https?:\/\/\S+/gi, '') // Remove URLs
+        .replace(/^>\s*/gm, '');        // Remove blockquote markers
 
     // Match X/Twitter word counting (refined):
     // - Words with letters (and optional numbers/apostrophes)
