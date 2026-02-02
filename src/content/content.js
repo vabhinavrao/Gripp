@@ -171,10 +171,14 @@ function saveToHistory(text, url, media) {
         .replace(/^---$/gm, '')         // Remove separators
         .replace(/\[Image\d+\]/g, '')   // Remove image placeholders
         .replace(/\[Video\d+\]/g, '')   // Remove video placeholders
-        .replace(/heading:|subheading:/g, ''); // Remove heading prefixes
+        .replace(/heading:|subheading:/g, '') // Remove heading prefixes
+        .replace(/https?:\/\/\S+/gi, ''); // Remove URLs (they inflate count)
 
-
-    const words = contentForWordCount.match(/\b[a-zA-Z0-9]+(?:'[a-zA-Z]+)?\b/g);
+    // Match X/Twitter word counting:
+    // - Regular words with optional contractions (don't, it's)
+    // - Hashtags and mentions as single words (#AI, @user)
+    // - Numbers in words count (web3, 5G) but standalone numbers don't
+    const words = contentForWordCount.match(/\b(?:[a-zA-Z]+(?:'[a-zA-Z]+)?|[a-zA-Z]+\d+[a-zA-Z]*|[@#]\w+)\b/g);
     const wordCount = words ? words.length : 0;
 
     // Detect content type: article if has "heading:" or is long-form
