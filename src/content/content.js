@@ -165,25 +165,24 @@ function saveToHistory(text, url, media) {
         preview = preview.trim() + '...';
     }
 
-    // Calculate word count (excluding separators, metadata, and image placeholders)
+    // Calculate word count using standard approach (like MS Word, Notepad)
+    // Only remove OUR added metadata, not original article content
     const contentForWordCount = text
-        .replace(/^Author:.*$/gm, '')  // Remove author line
-        .replace(/^---.*$/gm, '')      // Remove all separator lines (including quote markers)
-        .replace(/\(nested\)/g, '')     // Remove nested labels
-        .replace(/""/g, '')             // Remove quote delimiters
-        .replace(/\[Image\d+\]/g, '')   // Remove image placeholders
-        .replace(/\[Video\d+\]/g, '')   // Remove video placeholders
-        .replace(/heading:|subheading:/g, '') // Remove heading prefixes
-        .replace(/https?:\/\/\S+/gi, '') // Remove URLs
-        .replace(/^>\s*/gm, '')         // Remove blockquote markers
-        .replace(/•\s*/g, '');          // Remove bullet points
+        .replace(/^Author:.*$/gm, '')      // Remove our author line
+        .replace(/^---$/gm, '')             // Remove our separators
+        .replace(/--- Quoted Tweet from .* ---/g, '') // Remove our quote markers
+        .replace(/\[Image\d+\]/g, '')       // Remove our image placeholders
+        .replace(/\[Video\d+\]/g, '')       // Remove our video placeholders
+        .replace(/^heading:\s*/gm, '')      // Remove our heading prefix (keep heading text)
+        .replace(/^subheading:\s*/gm, '');  // Remove our subheading prefix (keep text)
 
-    // Match X/Twitter word counting exactly:
-    // Split on whitespace, count only tokens that contain at least one letter
-    // This excludes: standalone numbers (1, 2, 3...), pure punctuation, emoji
+    // Standard word counting algorithm (matches MS Word, X, Notepad):
+    // Split by whitespace, count all non-empty tokens
+    // This counts: words, numbers, alphanumeric, etc.
     const words = contentForWordCount
+        .trim()
         .split(/\s+/)
-        .filter(token => /[a-zA-Z]/.test(token));
+        .filter(token => token.length > 0);
     const wordCount = words.length;
 
     // Detect content type: article if has "heading:" or is long-form
