@@ -168,22 +168,23 @@ function saveToHistory(text, url, media) {
     // Calculate word count (excluding separators, metadata, and image placeholders)
     const contentForWordCount = text
         .replace(/^Author:.*$/gm, '')  // Remove author line
-        .replace(/^---$/gm, '')         // Remove separators (standalone)
-        .replace(/--- Quoted Tweet from .* ---/g, '') // Remove quote markers
+        .replace(/^---.*$/gm, '')      // Remove all separator lines (including quote markers)
         .replace(/\(nested\)/g, '')     // Remove nested labels
         .replace(/""/g, '')             // Remove quote delimiters
         .replace(/\[Image\d+\]/g, '')   // Remove image placeholders
         .replace(/\[Video\d+\]/g, '')   // Remove video placeholders
         .replace(/heading:|subheading:/g, '') // Remove heading prefixes
         .replace(/https?:\/\/\S+/gi, '') // Remove URLs
-        .replace(/^>\s*/gm, '');        // Remove blockquote markers
+        .replace(/^>\s*/gm, '')         // Remove blockquote markers
+        .replace(/•\s*/g, '');          // Remove bullet points
 
-    // Match X/Twitter word counting (refined):
-    // - Words with letters (and optional numbers/apostrophes)
-    // - Hashtags and mentions as single words
-    // This is more lenient than previous attempt
-    const words = contentForWordCount.match(/\b(?:[a-zA-Z0-9]+(?:'[a-zA-Z]+)?|[@#]\w+)\b/g);
-    const wordCount = words ? words.length : 0;
+    // Match X/Twitter word counting exactly:
+    // Split on whitespace, count only tokens that contain at least one letter
+    // This excludes: standalone numbers (1, 2, 3...), pure punctuation, emoji
+    const words = contentForWordCount
+        .split(/\s+/)
+        .filter(token => /[a-zA-Z]/.test(token));
+    const wordCount = words.length;
 
     // Detect content type: article if has "heading:" or is long-form
     const isArticle = text.includes('heading:') || text.includes('subheading:') || wordCount > 300;

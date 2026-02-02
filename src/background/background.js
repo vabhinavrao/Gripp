@@ -69,10 +69,12 @@ async function writeToClipboard(text, tabId) {
       } else {
         console.error(`Gripp: Clipboard write failed for ${result.size} chars:`, result.error);
 
-        // Notify content script of failure with helpful message
-        let errorMsg = result.error || "Unknown error";
-        if (result.size > 100000) {
-          errorMsg = `Content too large (${(result.size / 1024).toFixed(0)} KB). Try copying a shorter article.`;
+        // Provide user-friendly error messages
+        let errorMsg = "Sorry, please try again";
+
+        // Check for specific error types
+        if (result.error && result.error.includes("not focused")) {
+          errorMsg = "Please click the X tab and try again";
         }
 
         chrome.tabs.sendMessage(tabId, {
@@ -92,7 +94,7 @@ async function writeToClipboard(text, tabId) {
 
     chrome.tabs.sendMessage(tabId, {
       type: "CLIPBOARD_FAILED",
-      error: "Injection failed: " + err.message
+      error: "Sorry, please try again"
     }).catch(e => console.warn("Notify failed:", e));
   }
 }
